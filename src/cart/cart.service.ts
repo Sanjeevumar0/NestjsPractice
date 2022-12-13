@@ -2,8 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { Items } from './cart.model';
 import { AddItemDto } from './dto/add-item.dto';
 import { v1 as uuid } from 'uuid'
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Item } from './item.entity';
 @Injectable()
 export class CartService {
+    constructor(
+        @InjectRepository(Item) private itemRepository: Repository<Item>
+    ) { }
 
     private items: Items[] = []
 
@@ -35,7 +41,7 @@ export class CartService {
 
     }
 
-    updateItem(id: string, isAvailable: boolean):Items {
+    updateItem(id: string, isAvailable: boolean): Items {
         const found = this.getItemById(id);
         // console.log(found)
         found.isAvailable = isAvailable;
