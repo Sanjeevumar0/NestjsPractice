@@ -11,6 +11,11 @@ export class CartService {
         return this.items
     }
 
+    getItemById(id: string): Items {
+        const found = this.items.find(e => e.id === id)
+        return found
+    }
+
     addItem(addItemDto: AddItemDto) {
         const { title, description } = addItemDto
 
@@ -22,5 +27,18 @@ export class CartService {
         }
         this.items.push(item)
         return item
+    }
+
+    deleteItem(id: string): void {
+        const found = this.getItemById(id)
+        this.items = this.items.filter(e => e.id !== id)
+
+    }
+
+    updateItem(id: string, isAvailable: boolean):Items {
+        const found = this.getItemById(id);
+        // console.log(found)
+        found.isAvailable = isAvailable;
+        return found;
     }
 }
