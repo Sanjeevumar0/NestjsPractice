@@ -1,4 +1,4 @@
-import { Controller, Get, ParseBoolPipe } from '@nestjs/common';
+import { Controller, Get, ParseBoolPipe, ValidationPipe } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { Items } from './cart.model';
 import { Body, Delete, Param, Patch, Post } from '@nestjs/common/decorators';
@@ -19,7 +19,7 @@ export class CartController {
     }
 
     @Post()
-    addItem(@Body() addItemDto: AddItemDto): Items {
+    addItem(@Body(ValidationPipe) addItemDto: AddItemDto): Items {
         return this.cartService.addItem(addItemDto)
     }
 
