@@ -1,37 +1,36 @@
-import { Controller, Get, ParseBoolPipe, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, ParseBoolPipe, ParseIntPipe, ValidationPipe } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { Items } from './cart.model';
 import { Body, Delete, Param, Patch, Post } from '@nestjs/common/decorators';
 import { AddItemDto } from './dto/add-item.dto';
+import { Item } from './item.entity';
 @Controller('cart')
 export class CartController {
     constructor(private cartService: CartService) {
     }
 
     @Get()
-    getAllItems(): Items[] {
+    getAllItems():Promise<Item[]> {
         return this.cartService.getAllItems();
     }
 
     @Get('/:id')
-    getItemById(@Param('id') id: string): Items {
+    getItemById(@Param('id', ParseIntPipe) id: number): Promise<Item> {
         return this.cartService.getItemById(id)
     }
 
     @Post()
-    addItem(@Body(ValidationPipe) addItemDto: AddItemDto): Items {
+    addItem(@Body(ValidationPipe) addItemDto: AddItemDto): Promise<Item> {
         return this.cartService.addItem(addItemDto)
     }
 
     @Delete('/:id')
-    deleteItem(@Param('id') id: string): void {
+    deleteItem(@Param('id') id: number): Promise<void> {
         return this.cartService.deleteItem(id)
     }
 
     @Patch('/:id/av')
-    updateItem(@Param('id') id: string, @Body('isAvailable',ParseBoolPipe) isAvailable: boolean):Items {
+    updateItem(@Param('id') id: number, @Body('isAvailable', ParseBoolPipe) isAvailable: boolean): Promise<Item> {
         return this.cartService.updateItem(id, isAvailable)
-
     }
 
 }

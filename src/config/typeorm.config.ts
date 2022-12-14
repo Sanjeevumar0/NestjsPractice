@@ -1,4 +1,5 @@
 import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+import { Item } from "src/cart/item.entity";
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
     type: 'postgres',
@@ -7,6 +8,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     username: 'postgres',
     password: '123456',
     database: 'cartmanagement',
-    entities: [__dirname + '/../**/*.entity.ts'],
+    entities: [Item],
     synchronize: true
 } 
